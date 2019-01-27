@@ -24,7 +24,6 @@
 int main(){
 	char *portname = "/dev/ttyUSB0";   /* serial port name */
 	ID = 15;
-
 	
 	struct RS485data_struct RS485_data;
 
