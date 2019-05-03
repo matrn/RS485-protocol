@@ -18,4 +18,4 @@ Arduino example is stored at `RS485protocol/examples/RS485protocol_basic_usage/R
 
 ## C compilation
 
-In directory RS485protocol\_C run command `gcc RS485protocol.c functions.c -o RS485protocol`
+In directory RS485protocol\_C run `make`
