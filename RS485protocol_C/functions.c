@@ -513,7 +513,7 @@ void RS485_sendUptime(byte receiverAddress){   /* send uptime */
 
 
 void RS485_sendFeedback(byte receiverAddress, byte dataType, int length){
-	int a = 0;   /* variable for everything */
+	unsigned int a = 0;   /* variable for everything */
 	char numChar[6];   /* variable for save number in string format */
 	char dataForSend[15];   /* data for send */
 
