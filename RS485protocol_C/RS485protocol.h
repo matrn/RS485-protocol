@@ -17,8 +17,8 @@
  */
 
 
-#ifndef FUNCTIONS_H_
-#define FUNCTIONS_H_
+#ifndef RS485PROTOCOL_H_
+#define RS485PROTOCOL_H_
 
 #include <errno.h>
 #include <fcntl.h> 
