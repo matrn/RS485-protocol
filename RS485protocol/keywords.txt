@@ -6,17 +6,17 @@
 # Datatypes (KEYWORD1)
 ###########################################
 
-RS485data_struct KEYWORD1
-RS485protocol    KEYWORD1
+RS485data_struct	KEYWORD1
+RS485protocol	KEYWORD1
 
 ###########################################
 # Methods and Functions (KEYWORD2)
 ###########################################
 
-begin KEYWORD2
-check KEYWORD2
-ping  KEYWORD2
-sendData             KEYWORD2
-sendDataWithFeedback KEYWORD2
-broadcast  KEYWORD2
-sendUptime KEYWORD2
+begin	KEYWORD2
+check	KEYWORD2
+ping	KEYWORD2
+sendData	KEYWORD2
+sendDataWithFeedback	KEYWORD2
+broadcast	KEYWORD2
+sendUptime	KEYWORD2
