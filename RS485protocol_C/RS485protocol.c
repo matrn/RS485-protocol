@@ -28,7 +28,7 @@ byte RS485_checkResend(struct RS485data_struct * RS485_data){
 					return 1;   /* return 1 because we want to end */
 				}
 				else{   /* number of attempts is not sufficient */
-					write(fd, sentData[a], strlen(sentData[a]));   /* repeat sending */
+					if(write(fd, sentData[a], strlen(sentData[a])) < 0) perror("RS485_checkResend write");   /* repeat sending */
 
 					sentData_attempts[a] ++;   /* add attempt */
 					sentData_time[a] = millis();   /* save current millis (unix time) */
@@ -93,15 +93,16 @@ byte RS485_checkData(struct RS485data_struct * RS485_data){
 
 		oldBufferLen = (int)strlen(buffer);   /* save length of unchanged buffer */
 
-		sprintf(buffer, "%s%s", buffer, buf);   /* add received data to buffer */
+		//sprintf(buffer, "%s%s", buffer, buf);   /* add received data to buffer */
+		strcat(buffer, buf);
 		buffer[recvLen + oldBufferLen] = 0;   /* end of string */
 
 		recvLen = (int)strlen(buffer);   /* save length of composite buffer */
 
 
-		receivedData = malloc(recvLen + 1);   /* alocate memory */
+		receivedData = malloc(recvLen + 1);   /* allocate memory */
 
-		strncpy(receivedData, buffer, recvLen);   /* copy data from buffer to receivedData */
+		memcpy(receivedData, buffer, recvLen);   /* copy data from buffer to receivedData */
 		receivedData[recvLen] = '\0';   /* add end char */
 
 
@@ -288,8 +289,9 @@ byte RS485_checkData(struct RS485data_struct * RS485_data){
 				#endif
 			}
 		}
+
 		if(missByte == 1){
-			strcpy(buffer, buffer + stopPosition);   /* save unparse data */
+			memmove(buffer, buffer + stopPosition, recvLen);   /* save unparse data */
 			buffer[recvLen - stopPosition] = 0;   /* end of string */
 		}else{
 			memset(buffer, 0, sizeof(buffer));   /* clear buffer */
@@ -320,7 +322,7 @@ void RS485_ping(byte receiverAddress){
 	dataForSend[6] = 0x03;                  /* stop byte */
 	dataForSend[7] = 0;                     /* end of string */
 
-	write(fd, dataForSend, strlen(dataForSend));   /* send data */
+	if(write(fd, dataForSend, strlen(dataForSend)) < 0) perror("RS485_ping write");   /* send data */
 
 	#ifdef DEBUG
 	printf("Sending>%s<\n", dataForSend);
@@ -373,7 +375,7 @@ void RS485_sendData(byte receiverAddress, byte dataType, char * data){
 	dataForSend[inLen + 5] = 0x03;   /* stop byte */
 	dataForSend[inLen + 6] = 0;   /* end of string */
 
-	write(fd, dataForSend, strlen(dataForSend));   /* send data */
+	if(write(fd, dataForSend, strlen(dataForSend)) < 0) perror("RS485_sendData write");   /* send data */
 
 	#ifdef DEBUG
 	printf("Sending>%s<\n", dataForSend);
@@ -409,7 +411,7 @@ byte RS485_sendDataWithFeedback(byte receiverAddress, byte dataType, char * data
 	dataForSend[inLen + 5] = 0x03;   /* stop byte */
 	dataForSend[inLen + 6] = 0;   /* end of string */
 
-	write(fd, dataForSend, strlen(dataForSend));   /* send data */
+	if(write(fd, dataForSend, strlen(dataForSend)) < 0) perror("RS485_sendDataWithFeedback write");   /* send data */
 
 	#ifdef DEBUG
 	printf("Sending>%s<\n", dataForSend);
@@ -469,7 +471,7 @@ void RS485_broadcast(byte dataType, char * data){   /* broadcast */
 	dataForSend[inLen + 5] = 0x03;   /* stop byte */
 	dataForSend[inLen + 6] = 0;   /* end of string */
 
-	write(fd, dataForSend, strlen(dataForSend));   /* send data */
+	if(write(fd, dataForSend, strlen(dataForSend)) < 0) perror("RS485_broadcast write");   /* send data */
 
 	#ifdef DEBUG
 	printf("Sending broadcast>%s<\n", dataForSend);
@@ -503,7 +505,7 @@ void RS485_sendUptime(byte receiverAddress){   /* send uptime */
 	dataForSend[inLen + 5] = 0x03;   /* stop byte */
 	dataForSend[inLen + 6] = 0;   /* end of string */
 
-	write(fd, dataForSend, strlen(dataForSend));   /* send data */
+	if(write(fd, dataForSend, strlen(dataForSend)) < 0) perror("RS485_sendUptime write");   /* send data */
 
 	#ifdef DEBUG
 	printf("Uptime: %li sec\n", si.uptime);
@@ -531,7 +533,7 @@ void RS485_sendFeedback(byte receiverAddress, byte dataType, int length){
 
 	dataForSend[strlen(numChar) + 5] = 0x03;   /* stop byte */
 
-	write(fd, dataForSend, strlen(dataForSend));   /* send data */
+	if(write(fd, dataForSend, strlen(dataForSend)) < 0) perror("RS485_sendFeedback write");   /* send data */
 }
 
 
@@ -548,7 +550,7 @@ void RS485_send_ping_response(byte receiverAddress){
 	dataForSend[6] = 0x03;                  /* stop byte */
 	dataForSend[7] = 0;                     /* end of string */
 
-	write(fd, dataForSend, strlen(dataForSend));   /* send data */
+	if(write(fd, dataForSend, strlen(dataForSend)) < 0) perror("RS485_send_ping_response write");   /* send data */
 }
 
 

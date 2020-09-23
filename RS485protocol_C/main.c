@@ -23,7 +23,7 @@
 
 int main(){
 	char *portname = "/dev/ttyUSB0";   /* serial port name */
-	ID = 15;
+	ID = 1;
 	
 	struct RS485data_struct RS485_data;
 
@@ -54,7 +54,8 @@ int main(){
 	}
 
 	usleep(100000);
-	RS485_sendData(1, 13, "Hello, testing data without feedback");	
+	//RS485_sendData(1, 13, "Hello, testing data without feedback");	
+	RS485_sendDataWithFeedback(11, 3, "0");
 	usleep(100000);
 	RS485_ping(1);
 	usleep(100000);
